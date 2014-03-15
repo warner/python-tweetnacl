@@ -2219,7 +2219,7 @@ void add_constants(PyObject *m) {
 #if PY_MAJOR_VERSION >= 3
 struct PyModuleDef nacl_def = {
     PyModuleDef_HEAD_INIT,
-    "tweetnacl",
+    "_tweetnacl",
     NULL,
     -1,
     nacl_methods,
@@ -2228,9 +2228,9 @@ struct PyModuleDef nacl_def = {
 #endif
 
 #if PY_MAJOR_VERSION >= 3
-PyMODINIT_FUNC PyInit_tweetnacl(void) {
+PyMODINIT_FUNC PyInit__tweetnacl(void) {
 #else
-PyMODINIT_FUNC inittweetnacl(void) {
+PyMODINIT_FUNC init_tweetnacl(void) {
 #endif
     PyObject *m;
     unsigned char dummy[1];
@@ -2238,7 +2238,7 @@ PyMODINIT_FUNC inittweetnacl(void) {
     m = PyModule_Create( &nacl_def );
     if (!m) return m;
 #else
-    m = Py_InitModule("tweetnacl", nacl_methods);
+    m = Py_InitModule("_tweetnacl", nacl_methods);
     if (!m) return;
 #endif
     add_constants(m);
