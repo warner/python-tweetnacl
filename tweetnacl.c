@@ -3,7 +3,7 @@
 #define sv static void
 
 typedef unsigned char u8;
-typedef unsigned long u32;
+typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef long long i64;
 typedef i64 gf[16];
@@ -308,7 +308,7 @@ sv pack25519(u8 *o,const gf n)
     }
     m[15]=t[15]-0x7fff-((m[14]>>16)&1);
     b=(m[15]>>16)&1;
-    m[15]&=0xffff;
+    m[14]&=0xffff;
     sel25519(t,m,1-b);
   }
   FOR(i,16) {
