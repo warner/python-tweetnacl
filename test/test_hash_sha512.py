@@ -33,7 +33,7 @@ def hash_sha512_mc_test():
         pseudorandomly generated messages (monte carlo) test
         """
 
-        r = "dc13a41114a59c0bedba376d1afed10fda5be9febd68e0acaa9454007c8284845213cd05945a29ac1149ab0eb6c4714998614b79d6ca00648c9aba6b2335f0b3"
+        r = b"dc13a41114a59c0bedba376d1afed10fda5be9febd68e0acaa9454007c8284845213cd05945a29ac1149ab0eb6c4714998614b79d6ca00648c9aba6b2335f0b3"
         seed = [
                 0x41, 0x15, 0x63, 0xc9, 0x97, 0x5d, 0xeb, 0x4f,
                 0xe8, 0x02, 0x76, 0x83, 0x0e, 0x83, 0x53, 0x04,

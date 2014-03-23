@@ -4,7 +4,7 @@ import sys, binascii, random
 def fromhex(h):
     return binascii.unhexlify(h)
 
-if sys.version_info.major >= 3:
+if sys.version_info[0] >= 3:
     def flip_bit_in_byte(byte, whichbit):
         return bytes([byte ^ (1 << whichbit)])
 else:
