@@ -1,7 +1,6 @@
 #include <Python.h>
 #include <stdint.h>
 #include "tweetnacl.h"
-#include "randombytes.h"
 
 #if PY_VERSION_HEX < 0x02060000
 #define PyBytes_FromStringAndSize PyString_FromStringAndSize
@@ -51,40 +50,6 @@ PyObject *naclexception(const char *text) {
     PyErr_SetString(PyExc_ValueError, text);
     return (PyObject *)0;
 }
-
-/* API: r = randombytes(len); */
-PyObject *naclrandombytes(PyObject *self, PyObject *args, PyObject *kw) {
-
-    Py_ssize_t len=0;
-    PyObject *ret;
-    static const char *kwlist[] = {"len", 0};
-
-    if (!PyArg_ParseTupleAndKeywords(args, kw,
-#if PY_VERSION_HEX < 0x02050000
-                                     "|i:randombytes",
-#else
-                                     "|n:randombytes",
-#endif
-                                     (char **)kwlist,
-                                     &len)) {
-        return (PyObject *)0;
-    }
-
-    ret = PyBytes_FromStringAndSize((char *)0, len);
-    if (!ret) return ret;
-
-    randombytes(
-        (unsigned char *)PyBytes_AS_STRING(ret),
-        len
-    );
-
-    return ret;
-}
-
-const char randombytes__doc__[]=
-"randombytes(len) -> str\n\n\
-Return a string of 'len' random bytes suitable for cryptographic use.\n\
-";
 
 
 /* API: a = crypto_onetimeauth(m,k); */
@@ -2042,8 +2007,6 @@ static PyMethodDef nacl_methods[] = {
     {"crypto_box_curve25519xsalsa20poly1305_beforenm", (PyCFunction)pycrypto_box_curve25519xsalsa20poly1305_beforenm, METH_VARARGS | METH_KEYWORDS, pycrypto_box_curve25519xsalsa20poly1305_beforenm__doc__},
     {"crypto_box_curve25519xsalsa20poly1305_afternm", (PyCFunction)pycrypto_box_curve25519xsalsa20poly1305_afternm, METH_VARARGS | METH_KEYWORDS, pycrypto_box_curve25519xsalsa20poly1305_afternm__doc__},
     {"crypto_box_curve25519xsalsa20poly1305_open_afternm", (PyCFunction)pycrypto_box_curve25519xsalsa20poly1305_open_afternm, METH_VARARGS | METH_KEYWORDS, pycrypto_box_curve25519xsalsa20poly1305_open_afternm__doc__},
-
-    {"randombytes",(PyCFunction)naclrandombytes, METH_VARARGS | METH_KEYWORDS, randombytes__doc__},
     {(void *)0, (void *)0}
 };
 
@@ -2162,7 +2125,6 @@ PyMODINIT_FUNC init_tweetnacl(void) {
     if (!m) return;
 #endif
     add_constants(m);
-    randombytes(dummy,0);
 #if PY_MAJOR_VERSION >= 3
     return m;
 #endif
