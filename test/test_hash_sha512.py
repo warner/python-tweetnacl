@@ -3,7 +3,7 @@
 # Public domain.
 
 import sys
-import nacl
+import nacl.raw as nacl
 
 try:
         from sys import version_info

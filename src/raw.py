@@ -1,4 +1,5 @@
-from _tweetnacl import *
+
+from ._tweetnacl import *
 
 def _fromhex(h):
     return h.decode("hex")

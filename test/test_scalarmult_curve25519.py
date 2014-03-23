@@ -2,7 +2,7 @@
 # Jan Mojzis
 # Public domain.
 
-import nacl
+import nacl.raw as nacl
 
 def scalarmult_curve25519_test1():
         """

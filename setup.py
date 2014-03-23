@@ -9,9 +9,8 @@ import sys, os
 from distutils.core import setup, Extension, Command
 from distutils.util import get_platform
 
-nacl_module = Extension('_tweetnacl',
+nacl_module = Extension('nacl._tweetnacl',
                         ["tweetnaclmodule.c", "tweetnacl.c", "randombytes.c"],
-                        #include_dirs=["."],
                         extra_compile_args=["-O2",
                                             "-funroll-loops",
                                             "-fomit-frame-pointer"])
@@ -57,6 +56,7 @@ setup (name = 'tweetnacl',
        author      = "Brian Warner, Jan Mojžíš",
        description = """Python wrapper for TweetNaCl""",
        ext_modules = [nacl_module],
-       py_modules  = ["nacl"],
+       packages = ["nacl"],
+       package_dir = {"nacl": "src"},
        cmdclass = { "test": Test },
        )

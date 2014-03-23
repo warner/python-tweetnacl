@@ -3,7 +3,7 @@
 # Public domain.
 
 import sys
-import nacl
+import nacl.raw as nacl
 
 
 def exc():

@@ -2,7 +2,7 @@
 # Jan Mojzis
 # Public domain.
 
-import nacl
+import nacl.raw as nacl
 
 def box_curve25519xsalsa20poly1305_constant_test():
         """

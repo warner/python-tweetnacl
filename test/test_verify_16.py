@@ -2,7 +2,7 @@
 # Jan Mojzis
 # Public domain.
 
-import nacl
+import nacl.raw as nacl
 
 def verify_16_test():
         """
