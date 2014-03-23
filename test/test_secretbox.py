@@ -2,7 +2,7 @@
 # Jan Mojzis
 # Public domain.
 
-import sys
+import sys, binascii
 import nacl.raw as nacl
 from util import fromhex, flip_bit
 
@@ -103,8 +103,8 @@ def secretbox_test():
                 except:
                         pass
                 else:
-                        print n.encode("hex")
-                        print n1.encode("hex")
+                        print(hexlify(n))
+                        print(hexlify(n1))
                         raise ValueError("forgery")
 
                 c1 = flip_bit(c)
