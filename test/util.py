@@ -2,7 +2,7 @@
 import sys, binascii, random
 
 def fromhex(h):
-    return binascii.unhexlify(h)
+    return binascii.unhexlify(str(h).encode("ascii"))
 
 if sys.version_info[0] >= 3:
     def flip_bit_in_byte(byte, whichbit):
