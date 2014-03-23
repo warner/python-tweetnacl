@@ -4,6 +4,7 @@
 
 import sys
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 def exc():
         """
@@ -28,7 +29,7 @@ def sign_bad_test():
         sm = nacl.crypto_sign(m, sk)
 
         #save exception string
-        smx = nacl._randreplace(sm)
+        smx = flip_bit(sm)
         exc_string = ""
         try:
                 nacl.crypto_sign_open(smx, pk)
@@ -95,7 +96,7 @@ def sign_test():
                 sm = nacl.crypto_sign(m, sk)
                 t = nacl.crypto_sign_open(sm, pk)
 
-                sm1 = nacl._randreplace(sm)
+                sm1 = flip_bit(sm)
                 try:
                         t1 = nacl.crypto_sign_open(sm1, pk)
                 except:

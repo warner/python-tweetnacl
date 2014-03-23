@@ -3,6 +3,7 @@
 # Public domain.
 
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 def onetimeauth_poly1305_test():
         """
@@ -16,8 +17,8 @@ def onetimeauth_poly1305_test():
         m = m + "e355a5"
         r =     "f3ffc7703f9400e52a7dfb4b3d3305d9"
 
-        a = nacl.crypto_onetimeauth_poly1305(nacl._fromhex(m), nacl._fromhex(k))
-        if a != nacl._fromhex(r):
+        a = nacl.crypto_onetimeauth_poly1305(fromhex(m), fromhex(k))
+        if a != fromhex(r):
                 raise ValueError("invalid authenticator")
 
 def onetimeauth_poly1305_test2():
@@ -32,7 +33,7 @@ def onetimeauth_poly1305_test2():
         m = m + "e355a5"
         a =     "f3ffc7703f9400e52a7dfb4b3d3305d9"
 
-        nacl.crypto_onetimeauth_poly1305_verify(nacl._fromhex(a), nacl._fromhex(m), nacl._fromhex(k))
+        nacl.crypto_onetimeauth_poly1305_verify(fromhex(a), fromhex(m), fromhex(k))
 
 def onetimeauth_poly1305_constant_test():
         """

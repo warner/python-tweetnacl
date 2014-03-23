@@ -52,39 +52,6 @@ PyObject *naclexception(const char *text) {
     return (PyObject *)0;
 }
 
-/* API: n = _randreplace(m); */
-PyObject *nacl_randreplace(PyObject *self, PyObject *args, PyObject *kw) {
-
-    unsigned char *m;
-    Py_ssize_t msize=0;
-    static const char *kwlist[] = {"m", 0};
-    uint32_t a,b;
-    unsigned long long i;
-    PyObject *ret;
-    unsigned char *n;
-
-
-    if (!PyArg_ParseTupleAndKeywords(args, kw,
-                                     "|s#:_randreplace",
-                                     (char **)kwlist,
-                                     (char **)&m, &msize)) {
-        return (PyObject *)0;
-    }
-
-    ret = PyBytes_FromStringAndSize((char *)0, msize);
-    if (!ret) return ret;
-    n = (unsigned char *)PyBytes_AS_STRING(ret);
-
-    for (i = 0; i < msize; ++i) n[i] = m[i];
-
-    randombytes((unsigned char *)&a, 4);
-    randombytes((unsigned char *)&b, 4);
-
-    n[a % msize] += 1 + (b % 255);
-
-    return ret;
-}
-
 /* API: r = randombytes(len); */
 PyObject *naclrandombytes(PyObject *self, PyObject *args, PyObject *kw) {
 
@@ -118,51 +85,6 @@ const char randombytes__doc__[]=
 "randombytes(len) -> str\n\n\
 Return a string of 'len' random bytes suitable for cryptographic use.\n\
 ";
-
-
-static unsigned char fromhex(unsigned char t)
-{
-  unsigned char u;
-
-  u = t - 'a';
-  if (u < 6) return u + 10;
-  u = t - 'A';
-  if (u < 6) return u + 10;
-  u = t - '0';
-  if (u < 10) return u;
-  return 0;
-}
-
-/* API: s = _fromhex(h); */
-PyObject *nacl_fromhex(PyObject *self, PyObject *args, PyObject *kw) {
-
-    unsigned char *h, *r;
-    Py_ssize_t hlen=0, rlen=0;
-    static const char *kwlist[] = {"h", 0};
-    unsigned int i;
-    PyObject *ret;
-
-    if (!PyArg_ParseTupleAndKeywords(args, kw,
-                                     "|s#:_fromhex",
-                                     (char **)kwlist,
-                                     (char **)&h, &hlen)) {
-        return (PyObject *)0;
-    }
-
-    if (hlen % 2) return naclexception("bad length");
-    rlen = hlen/2;
-
-
-    ret = PyBytes_FromStringAndSize((char *)0, rlen);
-    if (!ret) return ret;
-    r = (unsigned char *)PyBytes_AS_STRING(ret);
-
-    for(i = 0; i < rlen; ++i) {
-        r[i] = 16*fromhex(h[2*i]);
-        r[i] += fromhex(h[2*i+1]);
-    }
-    return ret;
-}
 
 
 /* API: a = crypto_onetimeauth(m,k); */
@@ -2122,8 +2044,6 @@ static PyMethodDef nacl_methods[] = {
     {"crypto_box_curve25519xsalsa20poly1305_open_afternm", (PyCFunction)pycrypto_box_curve25519xsalsa20poly1305_open_afternm, METH_VARARGS | METH_KEYWORDS, pycrypto_box_curve25519xsalsa20poly1305_open_afternm__doc__},
 
     {"randombytes",(PyCFunction)naclrandombytes, METH_VARARGS | METH_KEYWORDS, randombytes__doc__},
-    {"_randreplace", (PyCFunction)nacl_randreplace, METH_VARARGS | METH_KEYWORDS},
-    {"_fromhex", (PyCFunction)nacl_fromhex, METH_VARARGS | METH_KEYWORDS},
     {(void *)0, (void *)0}
 };
 

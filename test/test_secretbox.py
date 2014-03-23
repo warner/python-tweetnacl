@@ -4,6 +4,7 @@
 
 import sys
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 
 def exc():
@@ -27,7 +28,7 @@ def secretbox_bad_test():
 
 
         #save exception string
-        cx = nacl._randreplace(c)
+        cx = flip_bit(c)
         exc_string = ""
         try:
                 nacl.crypto_secretbox_open(cx, n, k)
@@ -96,7 +97,7 @@ def secretbox_test():
                 if m != m1:
                         raise ValueError("bad decryption")
 
-                n1 = nacl._randreplace(n)
+                n1 = flip_bit(n)
                 try:
                         m1 = nacl.crypto_secretbox_open(c, n1, k)
                 except:
@@ -106,7 +107,7 @@ def secretbox_test():
                         print n1.encode("hex")
                         raise ValueError("forgery")
 
-                c1 = nacl._randreplace(c)
+                c1 = flip_bit(c)
                 try:
                         m1 = nacl.crypto_secretbox_open(c1, n, k)
                 except:

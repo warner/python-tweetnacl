@@ -4,6 +4,7 @@
 
 import sys
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 
 def exc():
@@ -24,7 +25,7 @@ def onetimeauth_bad_test():
 
         #save exception string
         exc_string = ""
-        ax = nacl._randreplace(a)
+        ax = flip_bit(a)
         try:
                 a = nacl.crypto_onetimeauth(ax, k)
         except:
@@ -84,7 +85,7 @@ def onetimeauth_test():
                 if mlen < 1:
                         continue
 
-                a1 = nacl._randreplace(a)
+                a1 = flip_bit(a)
                 try:
                         nacl.crypto_onetimeauth_verify(a1, m, k)
                 except:

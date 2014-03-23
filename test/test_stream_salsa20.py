@@ -3,6 +3,7 @@
 # Public domain.
 
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 def stream_salsa20_test():
         """
@@ -12,10 +13,10 @@ def stream_salsa20_test():
         k = "dc908dda0b9344a953629b733820778880f3ceb421bb61b91cbd4c3e66256ce4"
         n = "8219e0036b7a0b37"
 
-        c = nacl.crypto_stream_salsa20(4194304, nacl._fromhex(n), nacl._fromhex(k))
+        c = nacl.crypto_stream_salsa20(4194304, fromhex(n), fromhex(k))
         h = nacl.crypto_hash_sha512(c)
 
-        if h != nacl._fromhex(r):
+        if h != fromhex(r):
                 raise ValueError("unexpected result")
 
 

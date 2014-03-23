@@ -3,6 +3,7 @@
 # Public domain.
 
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 def sign_ed25519_test():
         """
@@ -16,13 +17,13 @@ def sign_ed25519_test():
         sm = sm + "366f7a8b5e2c69ba902e954619d8c18a47c56e4a289e8117ae9069717d846a01"
         sm = sm + "61686f6a0a"
 
-        s = nacl.crypto_sign_ed25519(nacl._fromhex(m), nacl._fromhex(sk))
+        s = nacl.crypto_sign_ed25519(fromhex(m), fromhex(sk))
 
-        if s != nacl._fromhex(sm):
+        if s != fromhex(sm):
                 raise ValueError("invalid signature")
 
-        t = nacl.crypto_sign_ed25519_open(s, nacl._fromhex(pk))
-        if nacl._fromhex(m) != t:
+        t = nacl.crypto_sign_ed25519_open(s, fromhex(pk))
+        if fromhex(m) != t:
                 raise ValueError("crypto_sign_open does not match contents")
 
 def sign_ed25519_constant_test():

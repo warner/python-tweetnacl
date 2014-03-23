@@ -3,6 +3,7 @@
 # Public domain.
 
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 def hash_base_test():
         """

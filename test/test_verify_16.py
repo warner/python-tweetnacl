@@ -3,6 +3,7 @@
 # Public domain.
 
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 def verify_16_test():
         """
@@ -15,7 +16,7 @@ def verify_16_test():
 
                 nacl.crypto_verify_16(x, y)
 
-                y1 = nacl._randreplace(y)
+                y1 = flip_bit(y)
 
                 try:
                         nacl.crypto_verify_16(x, y1)

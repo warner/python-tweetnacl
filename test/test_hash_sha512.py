@@ -4,6 +4,7 @@
 
 import sys
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 try:
         from sys import version_info
@@ -65,7 +66,7 @@ def hash_sha512_mc_test():
                         seed[i]                                   = MD[1002 * nacl.crypto_hash_sha512_BYTES + i]
                         MD[j * nacl.crypto_hash_sha512_BYTES + i] = MD[1002 * nacl.crypto_hash_sha512_BYTES + i]
 
-        if _strbytes(seed) != nacl._fromhex(r):
+        if _strbytes(seed) != fromhex(r):
                 raise ValueError("monte-carlo test failed")
 
 def hash_sha512_constant_test():

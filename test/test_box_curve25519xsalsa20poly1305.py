@@ -3,6 +3,7 @@
 # Public domain.
 
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 def box_curve25519xsalsa20poly1305_constant_test():
         """

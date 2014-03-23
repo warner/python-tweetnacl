@@ -3,6 +3,7 @@
 # Public domain.
 
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 
 def stream_xsalsa20_test():
@@ -14,10 +15,10 @@ def stream_xsalsa20_test():
         k =     "1b27556473e985d462cd51197a9a46c76009549eac6474f206c4ee0844f68389"
         n =     "69696ee955b62b73cd62bda875fc73d68219e0036b7a0b37"
 
-        c = nacl.crypto_stream_xsalsa20(4194304, nacl._fromhex(n), nacl._fromhex(k))
+        c = nacl.crypto_stream_xsalsa20(4194304, fromhex(n), fromhex(k))
         h = nacl.crypto_hash_sha512(c)
 
-        if h != nacl._fromhex(r):
+        if h != fromhex(r):
                 raise ValueError("unexpected result")
 
 
@@ -29,9 +30,9 @@ def stream_xsalsa20_test3():
         k = "1b27556473e985d462cd51197a9a46c76009549eac6474f206c4ee0844f68389"
         n = "69696ee955b62b73cd62bda875fc73d68219e0036b7a0b37"
 
-        c = nacl.crypto_stream_xsalsa20(32, nacl._fromhex(n), nacl._fromhex(k))
+        c = nacl.crypto_stream_xsalsa20(32, fromhex(n), fromhex(k))
 
-        if c != nacl._fromhex(r):
+        if c != fromhex(r):
                 raise ValueError("unexpected result")
 
 def stream_xsalsa20_test4():
@@ -55,9 +56,9 @@ def stream_xsalsa20_test4():
         k =     "1b27556473e985d462cd51197a9a46c76009549eac6474f206c4ee0844f68389"
         n =     "69696ee955b62b73cd62bda875fc73d68219e0036b7a0b37"
 
-        c = nacl.crypto_stream_xsalsa20_xor(nacl._fromhex(m), nacl._fromhex(n), nacl._fromhex(k))
+        c = nacl.crypto_stream_xsalsa20_xor(fromhex(m), fromhex(n), fromhex(k))
 
-        if c[32:] != nacl._fromhex(r)[32:]:
+        if c[32:] != fromhex(r)[32:]:
                 raise ValueError("unexpected result")
 
 

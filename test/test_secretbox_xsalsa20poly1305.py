@@ -3,6 +3,7 @@
 # Public domain.
 
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 
 def secretbox_xsalsa20poly1305_test():
@@ -22,8 +23,8 @@ def secretbox_xsalsa20poly1305_test():
         r = r + "90224368517acfeabd6bb3732bc0e9da99832b61ca01b6de56244a9e88d5f9b3"
         r = r + "7973f622a43d14a6599b1f654cb45a74e355a5"
 
-        c = nacl.crypto_secretbox_xsalsa20poly1305(nacl._fromhex(m), nacl._fromhex(n), nacl._fromhex(k))
-        if c != nacl._fromhex(r):
+        c = nacl.crypto_secretbox_xsalsa20poly1305(fromhex(m), fromhex(n), fromhex(k))
+        if c != fromhex(r):
                 raise ValueError("invalid secretbox")
 
 
@@ -44,8 +45,8 @@ def secretbox_xsalsa20poly1305_test2():
         c = c + "90224368517acfeabd6bb3732bc0e9da99832b61ca01b6de56244a9e88d5f9b3"
         c = c + "7973f622a43d14a6599b1f654cb45a74e355a5"
 
-        m1 = nacl.crypto_secretbox_xsalsa20poly1305_open(nacl._fromhex(c), nacl._fromhex(n), nacl._fromhex(k))
-        if m1 != nacl._fromhex(m):
+        m1 = nacl.crypto_secretbox_xsalsa20poly1305_open(fromhex(c), fromhex(n), fromhex(k))
+        if m1 != fromhex(m):
                 raise ValueError("invalid secretbox")
 
 

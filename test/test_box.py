@@ -4,6 +4,7 @@
 
 import sys
 import nacl.raw as nacl
+from util import fromhex, flip_bit
 
 
 def exc():
@@ -30,7 +31,7 @@ def box_bad_test():
         c = nacl.crypto_box(m, n, pk, sk)
 
         #save exception string
-        cx = nacl._randreplace(c)
+        cx = flip_bit(c)
         exc_string = ""
         try:
                 nacl.crypto_box_open(cx, n, pk, sk)
@@ -131,7 +132,7 @@ def box_test():
                 if m != m1:
                         raise ValueError("bad decryption")
 
-                n1 = nacl._randreplace(n)
+                n1 = flip_bit(n)
                 try:
                         m1 = nacl.crypto_box_open(c, n1, bobpk, alicesk)
                 except:
@@ -139,7 +140,7 @@ def box_test():
                 else:
                         raise ValueError("forgery")
 
-                c1 = nacl._randreplace(c)
+                c1 = flip_bit(c)
                 try:
                         m1 = nacl.crypto_box_open(c1, n, bobpk, alicesk)
                 except:
@@ -174,7 +175,7 @@ def box_test2():
                 if m != m1:
                         raise ValueError("bad decryption")
 
-                n1 = nacl._randreplace(n)
+                n1 = flip_bit(n)
                 try:
                         m1 = nacl.crypto_box_open_afternm(c, n1, alicek)
                 except:
@@ -182,7 +183,7 @@ def box_test2():
                 else:
                         raise ValueError("forgery")
 
-                c1 = nacl._randreplace(c)
+                c1 = flip_bit(c)
                 try:
                         m1 = nacl.crypto_box_open_afternm(c1, n, alicek)
                 except:
