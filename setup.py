@@ -5,6 +5,7 @@
 Build and install the TweetNaCl wrapper.
 """
 
+from __future__ import print_function
 import sys, os
 from distutils.core import setup, Extension, Command
 from distutils.util import get_platform
@@ -55,32 +56,47 @@ class Speed(Test):
     description = "run benchmark suite"
     def run(self):
         setup_path()
-        from timeit import main
+        from timeit import Timer
+
+        def do(setup_statements, statement):
+            # extracted from timeit.py
+            t = Timer(stmt=statement, setup="\n".join(setup_statements))
+            # determine number so that 0.2 <= total time < 2.0
+            for i in range(1, 10):
+                number = 10**i
+                x = t.timeit(number)
+                if x >= 0.2:
+                    break
+            return x / number
+
+        def abbrev(t):
+            if t > 1.0:
+                return "%.3fs" % t
+            if t > 1e-3:
+                return "%.1fms" % (t*1e3)
+            return "%.1fus" % (t*1e6)
+
+
         IM = "from nacl import raw; msg='H'*1000"
 
         # Hash
         S1 = "raw.crypto_hash(msg)"
-        sys.stdout.write(" Hash: ")
-        main(["-n", "10000", "-s", IM, S1])
+        print(" Hash:", abbrev(do([IM], S1)))
 
         # OneTimeAuth
         S1 = "k = 'k'*raw.crypto_onetimeauth_KEYBYTES"
         S2 = "auth = raw.crypto_onetimeauth(msg, k)"
         S3 = "raw.crypto_onetimeauth_verify(auth, msg, k)"
-        sys.stdout.write(" OneTimeAuth: ")
-        main(["-n", "10000", "-s", ";".join([IM, S1]), S2])
-        sys.stdout.write(" OneTimeAuth verify: ")
-        main(["-n", "10000", "-s", ";".join([IM, S1, S2]), S3])
+        print(" OneTimeAuth:", abbrev(do([IM, S1], S2)))
+        print(" OneTimeAuth verify:", abbrev(do([IM, S1, S2], S3)))
 
         # SecretBox
         S1 = "k = 'k'*raw.crypto_secretbox_KEYBYTES"
         S2 = "nonce = raw.randombytes(raw.crypto_secretbox_NONCEBYTES)"
         S3 = "c = raw.crypto_secretbox(msg, nonce, k)"
         S4 = "raw.crypto_secretbox_open(c, nonce, k)"
-        sys.stdout.write(" Secretbox encryption: ")
-        main(["-n", "10000", "-s", ";".join([IM, S1, S2]), S3])
-        sys.stdout.write(" Secretbox decryption: ")
-        main(["-n", "10000", "-s", ";".join([IM, S1, S2, S3]), S4])
+        print(" Secretbox encryption:", abbrev(do([IM, S1, S2], S3)))
+        print(" Secretbox decryption:", abbrev(do([IM, S1, S2, S3], S4)))
 
         # Curve25519
         S1 = "pk,sk = raw.crypto_box_keypair()"
@@ -89,26 +105,19 @@ class Speed(Test):
         S4 = "k = raw.crypto_box_beforenm(pk, sk)"
         S5 = "ct = raw.crypto_box_afternm(msg, nonce, k)"
 
-        sys.stdout.write(" Curve25519 keypair generation: ")
-        main(["-n", "1000", "-s", IM, S1])
-        sys.stdout.write(" Curve25519 encryption: ")
-        main(["-n", "1000", "-s", ";".join([IM, S1, S2, S3]), S3])
-        sys.stdout.write(" Curve25519 beforenm (setup): ")
-        main(["-n", "1000", "-s", ";".join([IM, S1, S2, S3]), S4])
-        sys.stdout.write(" Curve25519 afternm: ")
-        main(["-n", "10000", "-s", ";".join([IM, S1, S2, S3, S4]), S5])
+        print(" Curve25519 keypair generation:", abbrev(do([IM], S1)))
+        print(" Curve25519 encryption:", abbrev(do([IM, S1, S2, S3], S3)))
+        print(" Curve25519 beforenm (setup):", abbrev(do([IM, S1, S2, S3], S4)))
+        print(" Curve25519 afternm:", abbrev(do([IM, S1, S2, S3, S4], S5)))
 
         # Ed25519
         S1 = "vk,sk = raw.crypto_sign_keypair()"
         S2 = "sig = raw.crypto_sign(msg, sk)"
         S3 = "raw.crypto_sign_open(sig, vk)"
 
-        sys.stdout.write(" Ed25519 keypair generation: ")
-        main(["-n", "1000", "-s", IM, S1])
-        sys.stdout.write(" Ed25519 signing: ")
-        main(["-n", "1000", "-s", ";".join([IM, S1]), S2])
-        sys.stdout.write(" Ed25519 verifying: ")
-        main(["-n", "1000", "-s", ";".join([IM, S1, S2]), S3])
+        print(" Ed25519 keypair generation:", abbrev(do([IM], S1)))
+        print(" Ed25519 signing:", abbrev(do([IM, S1], S2)))
+        print(" Ed25519 verifying:", abbrev(do([IM, S1, S2], S3)))
 
 
 setup (name = 'tweetnacl',
