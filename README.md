@@ -60,3 +60,7 @@ This is a python binding to the "[tweetnacl](http://tweetnacl.cr.yp.to/)" crypto
 * `python setup.py build`
 * `python setup.py test`: run unit tests
 * `python setup.py speed`: run performance benchmarks
+
+## LICENSE
+
+This binding is released under the MIT license (see LICENSE in this distribution).
