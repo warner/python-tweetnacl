@@ -1074,7 +1074,7 @@ PyObject *pycrypto_secretbox(PyObject *self, PyObject *args, PyObject *kw) {
     mlen = msize + crypto_secretbox_ZEROBYTES;
     mpad = PyMem_Malloc(mlen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(mlen + crypto_secretbox_BOXZEROBYTES);
+    cpad = PyMem_Malloc(mlen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1132,7 +1132,7 @@ PyObject *pycrypto_secretbox_open(PyObject *self, PyObject *args, PyObject *kw) 
     clen = csize + crypto_secretbox_BOXZEROBYTES;
     mpad = PyMem_Malloc(clen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(clen + crypto_secretbox_ZEROBYTES);
+    cpad = PyMem_Malloc(clen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1200,7 +1200,7 @@ PyObject *pycrypto_secretbox_xsalsa20poly1305(PyObject *self, PyObject *args, Py
     mlen = msize + crypto_secretbox_xsalsa20poly1305_ZEROBYTES;
     mpad = PyMem_Malloc(mlen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(mlen + crypto_secretbox_xsalsa20poly1305_BOXZEROBYTES);
+    cpad = PyMem_Malloc(mlen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1258,7 +1258,7 @@ PyObject *pycrypto_secretbox_xsalsa20poly1305_open(PyObject *self, PyObject *arg
     clen = csize + crypto_secretbox_xsalsa20poly1305_BOXZEROBYTES;
     mpad = PyMem_Malloc(clen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(clen + crypto_secretbox_xsalsa20poly1305_ZEROBYTES);
+    cpad = PyMem_Malloc(clen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1328,7 +1328,7 @@ PyObject *pycrypto_box(PyObject *self, PyObject *args, PyObject *kw) {
     mlen = msize + crypto_box_ZEROBYTES;
     mpad = PyMem_Malloc(mlen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(mlen + crypto_box_BOXZEROBYTES);
+    cpad = PyMem_Malloc(mlen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1389,7 +1389,7 @@ PyObject *pycrypto_box_open(PyObject *self, PyObject *args, PyObject *kw) {
     clen = csize + crypto_box_BOXZEROBYTES;
     mpad = PyMem_Malloc(clen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(clen + crypto_box_ZEROBYTES);
+    cpad = PyMem_Malloc(clen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1534,7 +1534,7 @@ PyObject *pycrypto_box_afternm(PyObject *self, PyObject *args, PyObject *kw) {
     mlen = msize + crypto_box_ZEROBYTES;
     mpad = PyMem_Malloc(mlen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(mlen + crypto_box_BOXZEROBYTES);
+    cpad = PyMem_Malloc(mlen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1592,7 +1592,7 @@ PyObject *pycrypto_box_open_afternm(PyObject *self, PyObject *args, PyObject *kw
     clen = csize + crypto_box_BOXZEROBYTES;
     mpad = PyMem_Malloc(clen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(clen + crypto_box_ZEROBYTES);
+    cpad = PyMem_Malloc(clen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1662,7 +1662,7 @@ PyObject *pycrypto_box_curve25519xsalsa20poly1305(PyObject *self, PyObject *args
     mlen = msize + crypto_box_curve25519xsalsa20poly1305_ZEROBYTES;
     mpad = PyMem_Malloc(mlen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(mlen + crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES);
+    cpad = PyMem_Malloc(mlen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1723,7 +1723,7 @@ PyObject *pycrypto_box_curve25519xsalsa20poly1305_open(PyObject *self, PyObject 
     clen = csize + crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES;
     mpad = PyMem_Malloc(clen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(clen + crypto_box_curve25519xsalsa20poly1305_ZEROBYTES);
+    cpad = PyMem_Malloc(clen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1868,7 +1868,7 @@ PyObject *pycrypto_box_curve25519xsalsa20poly1305_afternm(PyObject *self, PyObje
     mlen = msize + crypto_box_curve25519xsalsa20poly1305_ZEROBYTES;
     mpad = PyMem_Malloc(mlen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(mlen + crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES);
+    cpad = PyMem_Malloc(mlen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
@@ -1926,7 +1926,7 @@ PyObject *pycrypto_box_curve25519xsalsa20poly1305_open_afternm(PyObject *self, P
     clen = csize + crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES;
     mpad = PyMem_Malloc(clen);
     if (!mpad) return PyErr_NoMemory();
-    cpad = PyMem_Malloc(clen + crypto_box_curve25519xsalsa20poly1305_ZEROBYTES);
+    cpad = PyMem_Malloc(clen);
     if (!cpad) {
         PyMem_Free(mpad);
         return PyErr_NoMemory();
